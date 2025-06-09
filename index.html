@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Onboarding Bot - Grant Generator Setup</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .step-complete { background: linear-gradient(135deg, #10b981, #059669); }
+        .step-active { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .step-pending { background: linear-gradient(135deg, #6b7280, #4b5563); }
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const OrganizationOnboardingBot = () => {
+            const [currentStep, setCurrentStep] = useState(1);
+            const [organizationData, setOrganizationData] = useState({
+                basicInfo: {},
+                extractedData: {},
+                programs: [],
+                financials: {},
+                partnerships: [],
+                targetFunders: []
+            });
+            const [websiteUrl, setWebsiteUrl] = useState('');
+            const [isExtracting, setIsExtracting] = useState(false);
+            const [extractionResults, setExtractionResults] = useState(null);
+
+            const steps = [
+                { id: 1, title: "Website Analysis", desc: "Extract basic organization info" },
+                { id: 2, title: "Organization Details", desc: "Review and enhance extracted data" },
+                { id: 3, title: "Programs & Impact", desc: "Detail your programs and outcomes" },
+                { id: 4, title: "Financial Info", desc: "Budget and capacity information" },
+                { id: 5, title: "Target Funders", desc: "Identify your priority funders" },
+                { id: 6, title: "System Generation", desc: "Create your custom grant generator" }
+            ];
+
+            // Simulate website data extraction
+            const extractWebsiteData = async (url) => {
+                setIsExtracting(true);
+                
+                // Simulate API call delay
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                
+                // Mock extracted data based on common website patterns
+                const mockData = {
+                    organizationName: "ArtWorks Now",
+                    mission: "To provide accessible arts education and creative opportunities that inspire personal growth, build community connections, and foster cultural understanding through innovative programming.",
+                    founded: 2010,
+                    location: "Washington, DC",
+                    taxStatus: "501(c)(3)",
+                    website: url,
+                    extractedPrograms: [
+                        {
+                            name: "Youth Arts Academy",
+                            description: "After-school and summer programs for teens",
+                            ages: "13-18",
+                            capacity: "150 students annually"
+                        },
+                        {
+                            name: "Community Workshops",
+                            description: "Adult arts education and skill-building",
+                            ages: "18+",
+                            capacity: "300 participants annually"
+                        }
+                    ],
+                    keyStaff: [
+                        { name: "Sarah Johnson", title: "Executive Director" },
+                        { name: "Michael Chen", title: "Program Director" }
+                    ],
+                    recentNews: [
+                        "Received $50,000 grant from Local Arts Foundation (2024)",
+                        "Opened new community studio space (2023)"
+                    ]
+                };
+
+                setExtractionResults(mockData);
+                setOrganizationData(prev => ({
+                    ...prev,
+                    basicInfo: mockData,
+                    extractedData: mockData
+                }));
+                setIsExtracting(false);
+                setCurrentStep(2);
+            };
+
+            // ... (rest of the component code continues)
+            
+            return (
+                <div className="min-h-screen bg-gray-50 py-8">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-8">
+                            <h1 className="text-4xl font-bold text-gray-900 mb-2">Organization Onboarding Bot</h1>
+                            <p className="text-xl text-gray-600">Automated setup for your custom grant generator</p>
+                        </div>
+                        {/* Component content */}
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<OrganizationOnboardingBot />, document.getElementById('root'));
+    </script>
+</body>
+</html>
